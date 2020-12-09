@@ -1,13 +1,12 @@
 import uuid
 from abc import ABCMeta, abstractmethod
 from dataclasses import dataclass
+from typing import TypeVar
 
-# Base Repository ############################################
+# Base Repository ###########################################
 
 
-class IRepository:
-
-    __metaclass__ = ABCMeta
+class IRepository(metaclass=ABCMeta):
 
     @classmethod
     def info(cls):
@@ -31,9 +30,7 @@ class User:
     name: str
 
 
-class IUserRepository(IRepository):
-
-    __metaclass__ = ABCMeta
+class IUserRepository(IRepository, metaclass=ABCMeta):
 
     @abstractmethod
     def save(self, user: User):
