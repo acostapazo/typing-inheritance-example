@@ -1,7 +1,9 @@
 import uuid
 from abc import ABCMeta, abstractmethod
+from collections import defaultdict
 from dataclasses import dataclass
 from typing import TypeVar
+
 
 # Base Repository ###########################################
 
@@ -60,7 +62,24 @@ def create_random_user(repository: IUserRepository):
     repository.save(user)
 
 
-def repository_provider(name: str) -> IRepository:
+def inheritors(klass):
+    subclasses = []
+    work = [klass]
+    while work:
+        parent = work.pop()
+        for child in parent.__subclasses__():
+            if child not in subclasses:
+                subclasses.append(child)
+                work.append(child)
+    return tuple(subclasses)
+
+
+declared_repositories = inheritors(IRepository)
+
+Repository = TypeVar("Repository", IRepository, *declared_repositories)
+
+
+def repository_provider(name: str) -> Repository:
     if name == "user":
         return InMemoryUserRepository()
     else:
