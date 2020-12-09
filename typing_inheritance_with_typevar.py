@@ -1,6 +1,5 @@
 import uuid
 from abc import ABCMeta, abstractmethod
-from collections import defaultdict
 from dataclasses import dataclass
 from typing import TypeVar
 
